@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+@Repository()
 public interface GameRepository extends JpaRepository<Game, Long> {
 
-    public Optional<Game> findByStatus(Status status);
+    Optional<Game> findByStatus(Status status);
 }

@@ -6,10 +6,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 @Entity
 @Table(name = "games")
 @Getter
