@@ -19,6 +19,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "game_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -26,6 +27,7 @@ public class Game {
     private Status status;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Player winner;
 
     @Transient

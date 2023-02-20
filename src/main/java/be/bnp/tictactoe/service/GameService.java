@@ -5,5 +5,9 @@ import be.bnp.tictactoe.enums.Status;
 
 public interface GameService {
 
-    public Game findByStatus(Status status);
+    Game findByStatus(Status status);
+
+    Game findById(Long id);
+
+    Game saveGame(Game game);
 }
