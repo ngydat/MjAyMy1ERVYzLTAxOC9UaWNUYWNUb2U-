@@ -4,6 +4,8 @@ create table
         game_id int not null,
         status character varying(255),
         winner character varying(255),
+        nb_moves int not null,
+        current_player character varying(255),
         primary key (game_id)
     );
 

@@ -1,5 +1,2 @@
 .idea
 target
-web/.vscode
-web/.idea
-web/node_modules

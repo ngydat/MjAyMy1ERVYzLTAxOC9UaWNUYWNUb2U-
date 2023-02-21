@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @Entity
@@ -26,11 +27,15 @@ public class Game {
     @Column
     private Status status;
 
+    @Column(name = "nb_moves")
+    private int nbMoves;
+
     @Column
     @Enumerated(EnumType.STRING)
     private Player winner;
 
-    @Transient
+    @Column(name = "current_player")
+    @Enumerated(EnumType.STRING)
     private Player currentPlayer;
 
     @Transient
@@ -40,6 +45,9 @@ public class Game {
         this.status = Status.WAITING;
         this.currentPlayer = Player.X;
         board = new Player[3][3];
+        for (Player[] row: board){
+            Arrays.fill(row, Player.EMPTY);
+        }
     }
 
     public Game(Long id){
@@ -48,10 +56,12 @@ public class Game {
     }
 
     public void makeMove(int indexRow, int indexCol){
-        if (this.board[indexRow][indexCol] != null){
+        if (nbMoves == 0) this.status = Status.ACTIVE;
+        if (this.board[indexRow][indexCol] != Player.EMPTY){
             throw new IllegalArgumentException("This space has already been played. Please put your X or O elsewhere");
         }
         this.board[indexRow][indexCol] = this.currentPlayer;
+        nbMoves++;
         if (isWinner(indexRow, indexCol)){
             victory();
         } else {
@@ -64,6 +74,14 @@ public class Game {
         this.currentPlayer = this.currentPlayer == Player.X ? Player.O: Player.X;
     }
 
+    /**
+     * From the latest move, check if it provides the win
+     *
+     * @param indexRow the position on the row
+     * @param indexCol the position on the column
+     * @return true if the latest move provided the win,
+     * false otherwise
+     */
 
     private boolean isWinner(int indexRow, int indexCol){
 
@@ -81,7 +99,7 @@ public class Game {
             return sameInARow(indexRow, indexCol) || sameInACol(indexRow, indexCol);
         }
 
-
+        //other positions
         return sameInARow(indexRow, indexCol) ||
                 sameInACol(indexRow, indexCol) ||
                 sameInDiagonale(indexRow, indexCol);
